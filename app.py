@@ -5,27 +5,21 @@ import numpy as np
 
 model = YOLO('best.pt')
 
-st.title("Live Object Detection with YOLOv8")
+st.title("Spirometer Object Detection")
 
 confidence_threshold = st.slider("Confidence Threshold", 0.0, 1.0, 0.25)
 
-run = st.checkbox("Start Webcam")
+img_file_buffer = st.camera_input("Capture Image")
 
-FRAME_WINDOW = st.image([])
+if img_file_buffer is not None:
+    image = Image.open(img_file_buffer)
+    img_array = np.array(image)
 
-if run:
-    cap = cv2.VideoCapture(0)
-    while run:
-        ret, frame = cap.read()
-        if not ret:
-            st.write("Failed to capture image")
-            break
+    results = model(img_array, conf=confidence_threshold)
 
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        results = model(frame_rgb, conf=confidence_threshold)
-        annotated_frame = results[0].plot()
-        FRAME_WINDOW.image(annotated_frame)
-
-    cap.release()
-else:
-    st.write("Click the checkbox to start the webcam.")
+    annotated_image = results[0].plot()
+    st.image(annotated_image, caption="Detected Objects")
+    
+    st.write("Detected classes:")
+    for result in results[0].boxes:
+        st.write(model.names[int(result.cls)])
