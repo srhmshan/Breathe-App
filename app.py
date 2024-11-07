@@ -5,7 +5,7 @@ from PIL import Image
 
 model = YOLO('best.pt')
 
-classes = {0: 'Blue', 1: 'Green', 2: 'Orange', 3: 'Triflow'}
+classes = {0: 'Orange', 1: 'Green', 2: 'Blue', 3: 'Triflow'}
 
 st.title("Spirometer Object Detection with YOLOv8")
 
