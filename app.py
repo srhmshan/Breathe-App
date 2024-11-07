@@ -1,11 +1,13 @@
 import streamlit as st
 from ultralytics import YOLO
-import cv2
 import numpy as np
+from PIL import Image
 
 model = YOLO('best.pt')
 
-st.title("Spirometer Object Detection")
+classes = {0: 'Blue', 1: 'Green', 2: 'Orange', 3: 'Triflow'}
+
+st.title("Object Detection with YOLOv8 - Custom Classes")
 
 confidence_threshold = st.slider("Confidence Threshold", 0.0, 1.0, 0.25)
 
@@ -22,4 +24,5 @@ if img_file_buffer is not None:
     
     st.write("Detected classes:")
     for result in results[0].boxes:
-        st.write(model.names[int(result.cls)])
+        class_id = int(result.cls)
+        st.write(classes.get(class_id, "Unknown"))
