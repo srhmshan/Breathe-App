@@ -7,7 +7,7 @@ model = YOLO('best.pt')
 
 classes = {0: 'Blue', 1: 'Green', 2: 'Orange', 3: 'Triflow'}
 
-st.title("Object Detection with YOLOv8 - Custom Classes")
+st.title("Spirometer Object Detection with YOLOv8")
 
 confidence_threshold = st.slider("Confidence Threshold", 0.0, 1.0, 0.25)
 
